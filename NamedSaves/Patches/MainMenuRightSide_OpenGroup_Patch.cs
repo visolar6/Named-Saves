@@ -104,13 +104,13 @@ namespace NamedSaves.Patches
                                         // Set button text (using TextMeshProUGUI if available)
                                         var btnTextGO = new GameObject("EditText");
                                         btnTextGO.transform.SetParent(buttonGO.transform, false);
-                                        var btnTmpType = System.Type.GetType("TMPro.TextMeshProUGUI, Unity.TextMeshPro");
+                                        var btnTmpType = Type.GetType("TMPro.TextMeshProUGUI, Unity.TextMeshPro");
                                         if (btnTmpType != null)
                                         {
                                             var btnTmp = btnTextGO.AddComponent(btnTmpType);
-                                            // Use Unicode pencil or fallback to 'Edit'
-                                            string pencil = "Edit name";
-                                            btnTmpType.GetProperty("text")?.SetValue(btnTmp, pencil);
+                                            // Localize the edit button text
+                                            string editButtonText = Language.main.Get("NamedSaves_EditButton") ?? "Edit name";
+                                            btnTmpType.GetProperty("text")?.SetValue(btnTmp, editButtonText);
                                             btnTmpType.GetProperty("fontSize")?.SetValue(btnTmp, 10f);
                                             btnTmpType.GetProperty("alignment")?.SetValue(btnTmp, (object)514); // Center
                                             // Make the text receive raycasts so the button is clickable
@@ -231,7 +231,9 @@ namespace NamedSaves.Patches
                                                 if (placeholderComp == null) return;
                                                 tmpTextType.GetProperty("fontSize")?.SetValue(placeholderComp, 8f);
                                                 tmpTextType.GetProperty("alignment")?.SetValue(placeholderComp, (object)514);
-                                                tmpTextType.GetProperty("text")?.SetValue(placeholderComp, "Enter name...");
+                                                // Localize the input placeholder text
+                                                string placeholderText = Language.main.Get("NamedSaves_InputPlaceholder") ?? "Enter custom name...";
+                                                tmpTextType.GetProperty("text")?.SetValue(placeholderComp, placeholderText);
                                                 tmpTextType.GetProperty("color")?.SetValue(placeholderComp, new Color(1, 1, 1, 0.5f));
                                                 tmpTextType.GetProperty("raycastTarget")?.SetValue(placeholderComp, false);
                                                 // Assign textComponent and placeholder
@@ -258,9 +260,9 @@ namespace NamedSaves.Patches
                                                 var currentEventSystem = currentEventSystemProp?.GetValue(null);
                                                 if (currentEventSystem != null)
                                                 {
-                                                    var setSelectedGO = eventSystemType.GetMethod("SetSelectedGameObject", new[] { typeof(GameObject) });
+                                                    var setSelectedGO = eventSystemType.GetMethod("SetSelectedGameObject", [typeof(GameObject)]);
                                                     if (setSelectedGO != null)
-                                                        setSelectedGO.Invoke(currentEventSystem, new object[] { inputGO });
+                                                        setSelectedGO.Invoke(currentEventSystem, [inputGO]);
                                                 }
                                                 // Disable the edit button while editing
                                                 if (interactableProp != null) interactableProp.SetValue(button, false);
@@ -291,7 +293,7 @@ namespace NamedSaves.Patches
                                                         var addListenerMethod_OnEndEdit = onEndEditEvent.GetType().GetMethod("AddListener");
                                                         if (addListenerMethod_OnEndEdit != null)
                                                         {
-                                                            addListenerMethod_OnEndEdit.Invoke(onEndEditEvent, new object[] { saveAndClose });
+                                                            addListenerMethod_OnEndEdit.Invoke(onEndEditEvent, [saveAndClose]);
                                                             listenerAttached = true;
                                                         }
                                                     }
@@ -318,7 +320,7 @@ namespace NamedSaves.Patches
                                                     var callback = System.Activator.CreateInstance(typeof(UnityEngine.EventSystems.EventTrigger.TriggerEvent));
                                                     var addListenerMethod = callback.GetType().GetMethod("AddListener");
                                                     if (addListenerMethod == null) return;
-                                                    addListenerMethod.Invoke(callback, new object[] { deselectAction });
+                                                    addListenerMethod.Invoke(callback, [deselectAction]);
                                                     callbackField.SetValue(entry, callback);
                                                     var triggersListField = eventTriggerType.GetField("triggers");
                                                     var triggersListProp = eventTriggerType.GetProperty("triggers");
@@ -336,7 +338,7 @@ namespace NamedSaves.Patches
                                             });
                                             var addListener = onClick.GetType().GetMethod("AddListener");
                                             if (addListener != null)
-                                                addListener.Invoke(onClick, new object[] { action });
+                                                addListener.Invoke(onClick, [action]);
                                         }
                                     }
                                 }

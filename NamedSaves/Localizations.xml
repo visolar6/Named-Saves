@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LocalizationPackages>
     <LocalizationPackage Lang="English">
-
+        <Text key="NamedSaves_EditButton">Edit name</Text>
+        <Text key="NamedSaves_InputPlaceholder">Enter name...</Text>
+    </LocalizationPackage>
+    <LocalizationPackage Lang="Russian">
+        <Text key="NamedSaves_EditButton">Изменить имя</Text>
+        <Text key="NamedSaves_InputPlaceholder">Введите имя...</Text>
+    </LocalizationPackage>
+    <LocalizationPackage Lang="Spanish">
+        <Text key="NamedSaves_EditButton">Editar nombre</Text>
+        <Text key="NamedSaves_InputPlaceholder">Ingrese un nombre...</Text>
+    </LocalizationPackage>
+    <LocalizationPackage Lang="French">
+        <Text key="NamedSaves_EditButton">Modifier le nom</Text>
+        <Text key="NamedSaves_InputPlaceholder">Entrez un nom...</Text>
+    </LocalizationPackage>
+    <LocalizationPackage Lang="German">
+        <Text key="NamedSaves_EditButton">Namen bearbeiten</Text>
+        <Text key="NamedSaves_InputPlaceholder">Geben Sie einen Namen ein...</Text>
     </LocalizationPackage>
 </LocalizationPackages>
