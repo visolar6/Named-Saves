@@ -23,8 +23,8 @@ namespace NamedSaves.Patches
                         foreach (var tmp in tmps)
                         {
                             var tmpTextProp = tmpType.GetProperty("text");
-                            var nameProp = tmpType.GetProperty("name");
-                            string name = nameProp?.GetValue(tmp)?.ToString() ?? "(unknown)";
+                            var tmpNameProp = tmpType.GetProperty("name");
+                            string name = tmpNameProp?.GetValue(tmp)?.ToString() ?? "(unknown)";
                             string value = tmpTextProp?.GetValue(tmp)?.ToString() ?? "(null)";
                             if (name == "SaveGameMode")
                             {
@@ -53,29 +53,24 @@ namespace NamedSaves.Patches
                                         NamedSavesConfig.SetCustomName(saveId!, "");
                                     }
                                 }
-                                // Compose display text
-                                string displayText = value;
-                                string customMarkup = !string.IsNullOrEmpty(customName)
-                                    ? $"<size=8><color=#DDDDDD>{customName}</color></size>\n<size=10>{value}</size>"
-                                    : $"<size=8><color=#DDDDDD> </color></size>\n<size=10>{value}</size>";
-                                // Only set if not already present to avoid stacking
-                                string currentText = value ?? string.Empty;
-                                if (!currentText.Contains("<color=#DDDDDD>"))
+                                // Replace game mode text with custom name, or use game mode as fallback
+                                // Wrap in red color only if showing a custom name
+                                string displayText;
+                                if (!string.IsNullOrEmpty(customName))
                                 {
-                                    tmpTextProp?.SetValue(tmp, customMarkup);
+                                    displayText = GetCustomNameDisplayText(customName!);
                                 }
-                                // Move the component to a fixed offset
-                                if (comp != null)
+                                else
                                 {
-                                    var rectTransform = comp.GetComponent<RectTransform>();
-                                    if (rectTransform != null)
-                                    {
-                                        // Only set to a fixed offset, not increment
-                                        var pos = rectTransform.anchoredPosition;
-                                        float desiredY = 0f;
-                                        if (pos.y != desiredY)
-                                            rectTransform.anchoredPosition = new Vector2(pos.x, desiredY);
-                                    }
+                                    displayText = GetGameModeDisplayText(value);
+                                }
+                                tmpTextProp?.SetValue(tmp, displayText);
+                                // Shift text down by 1 pixel
+                                var textRect = comp?.GetComponent<RectTransform>();
+                                if (textRect != null)
+                                {
+                                    var pos = textRect.anchoredPosition;
+                                    textRect.anchoredPosition = new Vector2(pos.x, pos.y - 1f);
                                 }
                                 // --- Add edit button for custom name ---
                                 if (!string.IsNullOrEmpty(saveId) && comp != null)
@@ -141,10 +136,8 @@ namespace NamedSaves.Patches
                                                     inputRect.anchorMin = compRect.anchorMin;
                                                     inputRect.anchorMax = compRect.anchorMax;
                                                     inputRect.pivot = compRect.pivot;
-                                                    var shrink = 0.7f;
-                                                    inputRect.sizeDelta = compRect.sizeDelta * shrink;
-                                                    // Move 12px to the right and up 4px for precise centering
-                                                    inputRect.anchoredPosition = compRect.anchoredPosition + new Vector2(14, 0);
+                                                    inputRect.sizeDelta = compRect.sizeDelta;
+                                                    inputRect.anchoredPosition = compRect.anchoredPosition;
                                                 }
                                                 else
                                                 {
@@ -273,11 +266,9 @@ namespace NamedSaves.Patches
                                                     var safeValue = value ?? string.Empty;
                                                     var safeNewValue = newValue ?? string.Empty;
                                                     NamedSavesConfig.SetCustomName(safeSaveId, safeNewValue);
-                                                    // Update the displayed custom name text in the UI (update comp directly)
-                                                    string customMarkup = !string.IsNullOrEmpty(safeNewValue)
-                                                        ? $"<size=8><color=#DDDDDD>{safeNewValue}</color></size>\n<size=10>{safeValue}</size>"
-                                                        : $"<size=8><color=#DDDDDD> </color></size>\n<size=10>{safeValue}</size>";
-                                                    tmpTextType.GetProperty("text")?.SetValue(comp, customMarkup);
+                                                    // Update the displayed text to show custom name or fall back to game mode
+                                                    string updatedDisplayText = !string.IsNullOrEmpty(safeNewValue) ? GetCustomNameDisplayText(safeNewValue) : GetGameModeDisplayText(safeValue);
+                                                    tmpTextType.GetProperty("text")?.SetValue(comp, updatedDisplayText);
                                                     UnityEngine.Object.Destroy(inputGO);
                                                     if (interactableProp != null) interactableProp.SetValue(button, true);
                                                 });
@@ -351,6 +342,21 @@ namespace NamedSaves.Patches
                     }
                 }
             }
+        }
+
+        static string GetGameModeDisplayText(string gameMode)
+        {
+            return GetDisplayText(gameMode, "#ffffff", 10);
+        }
+
+        static string GetCustomNameDisplayText(string customName)
+        {
+            return GetDisplayText(customName, "#4487ff", 10);
+        }
+
+        static string GetDisplayText(string value, string color, int size = 10)
+        {
+            return $"<size={size}><color={color}>{value}</color></size>";
         }
     }
 }
