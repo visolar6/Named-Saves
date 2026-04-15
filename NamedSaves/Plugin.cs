@@ -9,6 +9,8 @@ namespace NamedSaves
     [BepInPlugin(GUID, Name, Version)]
     public class Plugin : BaseUnityPlugin
     {
+        public static Plugin? Instance { get; private set; }
+
         public static Options Options { get; } = OptionsPanelHandler.RegisterModOptions<Options>();
 
         public static ManualLogSource? Log;
@@ -26,6 +28,7 @@ namespace NamedSaves
         /// </summary>
         public void Awake()
         {
+            Instance = this;
             Log = Logger;
         }
 

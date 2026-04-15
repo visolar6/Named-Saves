@@ -35,6 +35,7 @@ namespace NamedSaves.Utilities
             dict[saveId] = customName;
             Directory.CreateDirectory(ConfigDir);
             File.WriteAllText(ConfigPath, JsonConvert.SerializeObject(dict, Formatting.Indented));
+            ErrorMessage.AddMessage($"Saved custom name for save {saveId} with value: {customName}");
         }
     }
 }

@@ -2,6 +2,7 @@ using HarmonyLib;
 using UnityEngine;
 using NamedSaves.Utilities;
 using System;
+using System.Collections;
 
 namespace NamedSaves.Patches
 {
@@ -43,15 +44,11 @@ namespace NamedSaves.Patches
                                         ancestorLevel++;
                                     }
                                 }
-                                // Look up custom name from config, and if not found, set empty entry
+                                // Look up custom name from config
                                 string? customName = null;
                                 if (!string.IsNullOrEmpty(saveId))
                                 {
                                     customName = NamedSavesConfig.GetCustomName(saveId!);
-                                    if (customName == null)
-                                    {
-                                        NamedSavesConfig.SetCustomName(saveId!, "");
-                                    }
                                 }
                                 // Replace game mode text with custom name, or use game mode as fallback
                                 // Wrap in red color only if showing a custom name
@@ -341,6 +338,53 @@ namespace NamedSaves.Patches
                         Plugin.Log?.LogInfo("[NamedSaves] TextMeshProUGUI type not found.");
                     }
                 }
+            }
+
+            // Re-apply custom names one frame later to handle the case where Subnautica
+            // asynchronously refreshes save entry text after OpenGroup returns
+            // (e.g. after "Save and Quit", the game re-reads save metadata from disk and
+            // overwrites the SaveGameMode text, reverting our changes).
+            Plugin.Instance?.StartCoroutine(ReapplyNamesAfterDelay(__instance));
+        }
+
+        private static IEnumerator ReapplyNamesAfterDelay(MainMenuRightSide instance)
+        {
+            yield return null; // wait one frame for the game's async save-list refresh to settle
+
+            if (instance == null) yield break;
+
+            var tmpType = Type.GetType("TMPro.TextMeshProUGUI, Unity.TextMeshPro");
+            if (tmpType == null) yield break;
+
+            var tmpTextProp = tmpType.GetProperty("text");
+            var tmpNameProp = tmpType.GetProperty("name");
+
+            foreach (var group in instance.groups)
+            {
+                if (group.gameObject.name != "SavedGames") continue;
+
+                foreach (var tmp in group.gameObject.GetComponentsInChildren(tmpType, true))
+                {
+                    string componentName = tmpNameProp?.GetValue(tmp)?.ToString() ?? "";
+                    if (componentName != "SaveGameMode") continue;
+
+                    string? saveId = null;
+                    var t = ((Component)tmp).transform;
+                    int level = 0;
+                    while (t != null && level < 3)
+                    {
+                        if (level == 2) saveId = t.gameObject.name;
+                        t = t.parent;
+                        level++;
+                    }
+
+                    if (string.IsNullOrEmpty(saveId)) continue;
+
+                    string? customName = NamedSavesConfig.GetCustomName(saveId!);
+                    if (!string.IsNullOrEmpty(customName))
+                        tmpTextProp?.SetValue(tmp, GetCustomNameDisplayText(customName!));
+                }
+                break;
             }
         }
 
