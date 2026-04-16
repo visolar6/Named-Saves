@@ -19,7 +19,7 @@ namespace NamedSaves
 
         internal const string Name = "Named Saves";
 
-        internal const string Version = "1.0.1";
+        internal const string Version = "1.0.2";
 
         private readonly Harmony _harmony = new(GUID);
 

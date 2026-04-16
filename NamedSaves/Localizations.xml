@@ -20,4 +20,80 @@
         <Text key="NamedSaves_EditButton">Namen bearbeiten</Text>
         <Text key="NamedSaves_InputPlaceholder">Geben Sie einen Namen ein...</Text>
     </LocalizationPackage>
+    <LocalizationPackage Lang="Italian">
+        <Text key="NamedSaves_EditButton">Modifica nome</Text>
+        <Text key="NamedSaves_InputPlaceholder">Inserisci un nome...</Text>
+    </LocalizationPackage>
+    <LocalizationPackage Lang="Portuguese">
+        <Text key="NamedSaves_EditButton">Editar nome</Text>
+        <Text key="NamedSaves_InputPlaceholder">Digite um nome...</Text>
+    </LocalizationPackage>
+    <LocalizationPackage Lang="Polish">
+        <Text key="NamedSaves_EditButton">Edytuj nazwę</Text>
+        <Text key="NamedSaves_InputPlaceholder">Wprowadź nazwę...</Text>
+    </LocalizationPackage>
+    <LocalizationPackage Lang="Turkish">
+        <Text key="NamedSaves_EditButton">İsmi düzenle</Text>
+        <Text key="NamedSaves_InputPlaceholder">İsim girin...</Text>
+    </LocalizationPackage>
+    <LocalizationPackage Lang="Chinese">
+        <Text key="NamedSaves_EditButton">编辑名称</Text>
+        <Text key="NamedSaves_InputPlaceholder">输入名称...</Text>
+    </LocalizationPackage>
+    <LocalizationPackage Lang="Japanese">
+        <Text key="NamedSaves_EditButton">名前を編集</Text>
+        <Text key="NamedSaves_InputPlaceholder">名前を入力...</Text>
+    </LocalizationPackage>
+    <LocalizationPackage Lang="Korean">
+        <Text key="NamedSaves_EditButton">이름 편집</Text>
+        <Text key="NamedSaves_InputPlaceholder">이름을 입력하세요...</Text>
+    </LocalizationPackage>
+    <LocalizationPackage Lang="Dutch">
+        <Text key="NamedSaves_EditButton">Naam bewerken</Text>
+        <Text key="NamedSaves_InputPlaceholder">Voer een naam in...</Text>
+    </LocalizationPackage>
+    <LocalizationPackage Lang="Arabic">
+        <Text key="NamedSaves_EditButton">تعديل الاسم</Text>
+        <Text key="NamedSaves_InputPlaceholder">أدخل اسمًا...</Text>
+    </LocalizationPackage>
+    <LocalizationPackage Lang="Ukrainian">
+        <Text key="NamedSaves_EditButton">Редагувати назву</Text>
+        <Text key="NamedSaves_InputPlaceholder">Введіть назву...</Text>
+    </LocalizationPackage>
+    <LocalizationPackage Lang="Czech">
+        <Text key="NamedSaves_EditButton">Upravit název</Text>
+        <Text key="NamedSaves_InputPlaceholder">Zadejte název...</Text>
+    </LocalizationPackage>
+    <LocalizationPackage Lang="Hungarian">
+        <Text key="NamedSaves_EditButton">Név szerkesztése</Text>
+        <Text key="NamedSaves_InputPlaceholder">Adjon meg egy nevet...</Text>
+    </LocalizationPackage>
+    <LocalizationPackage Lang="Romanian">
+        <Text key="NamedSaves_EditButton">Editează numele</Text>
+        <Text key="NamedSaves_InputPlaceholder">Introduceți un nume...</Text>
+    </LocalizationPackage>
+    <LocalizationPackage Lang="Swedish">
+        <Text key="NamedSaves_EditButton">Redigera namn</Text>
+        <Text key="NamedSaves_InputPlaceholder">Ange ett namn...</Text>
+    </LocalizationPackage>
+    <LocalizationPackage Lang="Finnish">
+        <Text key="NamedSaves_EditButton">Muokkaa nimeä</Text>
+        <Text key="NamedSaves_InputPlaceholder">Syötä nimi...</Text>
+    </LocalizationPackage>
+    <LocalizationPackage Lang="Danish">
+        <Text key="NamedSaves_EditButton">Rediger navn</Text>
+        <Text key="NamedSaves_InputPlaceholder">Indtast et navn...</Text>
+    </LocalizationPackage>
+    <LocalizationPackage Lang="Norwegian">
+        <Text key="NamedSaves_EditButton">Rediger navn</Text>
+        <Text key="NamedSaves_InputPlaceholder">Skriv inn et navn...</Text>
+    </LocalizationPackage>
+    <LocalizationPackage Lang="Thai">
+        <Text key="NamedSaves_EditButton">แก้ไขชื่อ</Text>
+        <Text key="NamedSaves_InputPlaceholder">ป้อนชื่อ...</Text>
+    </LocalizationPackage>
+    <LocalizationPackage Lang="Hindi">
+        <Text key="NamedSaves_EditButton">नाम संपादित करें</Text>
+        <Text key="NamedSaves_InputPlaceholder">नाम दर्ज करें...</Text>
+    </LocalizationPackage>
 </LocalizationPackages>
